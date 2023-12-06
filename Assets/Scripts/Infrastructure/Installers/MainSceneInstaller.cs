@@ -1,5 +1,6 @@
 using DefaultNamespace;
-using Infrastructure.Fabric;
+using Infrastructure.AssetManagement;
+
 using UnityEngine;
 using Zenject;
 
@@ -9,22 +10,27 @@ namespace Infrastructure.Installers
     {
         [SerializeField] private Game _game;
         [SerializeField] private LevelGenerator _levelGenerator;
-        [SerializeField] private UIMediator _mediator;
+        [SerializeField] private PopupAnimation _popupAnimation;
+        [SerializeField] private Mediator _mediator;
 
         [SerializeField] private Transform _spawnPoint;
-        private IPlayerFactory _playerFactory;
+        private IAssetProvider _assets;
 
         [Inject]
-        private void Construct(IPlayerFactory playerFactory)
+        private void Construct(IAssetProvider assets)
         {
-            _playerFactory = playerFactory;
+            _assets = assets;
         }
 
         public override void InstallBindings()
-        {
+        {                      
+            BindPopupAnimation();
+
             BindPlayer();
+            
             BindLevelGenerator();
             BindGame();
+            
             BindMediator();
         }
 
@@ -38,18 +44,24 @@ namespace Infrastructure.Installers
 
         private void BindPlayer()
         {
-            GameObject car = _playerFactory.CreatePlayer(_spawnPoint);
-            Player carMover = car.GetComponent<Player>();
+            Player player = Container.InstantiatePrefabForComponent<Player>(_assets.GetAsset(path: InfrastructureAssetPath.Player),_spawnPoint.position,Quaternion.identity,_spawnPoint);
             Container
                 .Bind<Player>()
-                .FromInstance(carMover);
+                .FromInstance(player);
         }
 
         private void BindMediator()
         {
             Container
-                .Bind<UIMediator>()
+                .Bind<Mediator>()
                 .FromInstance(_mediator)
+                .AsSingle();
+        }
+        private void BindPopupAnimation()
+        {
+            Container
+                .Bind<PopupAnimation>()
+                .FromInstance(_popupAnimation)
                 .AsSingle();
         }
 

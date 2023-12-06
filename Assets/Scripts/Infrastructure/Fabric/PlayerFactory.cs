@@ -18,7 +18,7 @@ namespace Infrastructure.Fabric
         }
         public GameObject CreatePlayer(Transform at)
         {
-            GameObject playerAsset=_assets.GetAsset(path: _playerPath);
+            GameObject playerAsset=_assets.GetAsset(path: InfrastructureAssetPath.Player);
             _playerGameObject=_diContainer.InstantiatePrefab(playerAsset, at.position, Quaternion.identity, at);
             return _playerGameObject;
         }

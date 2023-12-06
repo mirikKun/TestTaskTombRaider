@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace DefaultNamespace
 {
@@ -8,8 +9,14 @@ namespace DefaultNamespace
     {
         [SerializeField] private Button _continueButton;
         [SerializeField] private Button _exitButton;
-        [SerializeField] private UIMediator _uiMediator;
+        private Mediator _mediator;
+        
 
+        [Inject]
+        private void Construct(Mediator mediator)
+        {
+            _mediator = mediator;
+        }
         private void Start()
         {
             InitButtons();
@@ -23,7 +30,8 @@ namespace DefaultNamespace
 
         private void ContinueGame()
         {
-            _uiMediator.ClosePauseMenu();
+            _mediator.ClosePauseMenu();
+            _mediator.ContinueGame();
             Time.timeScale = 1;
         }
 

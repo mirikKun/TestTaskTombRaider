@@ -7,6 +7,7 @@ namespace Infrastructure.Logic
   {
     public CanvasGroup Curtain;
 
+    private float _fadingSpeed = 0.2f;
     private void Awake()
     {
       DontDestroyOnLoad(this);
@@ -18,17 +19,35 @@ namespace Infrastructure.Logic
       Curtain.alpha = 1;
     }
 
-    public void Hide() => StartCoroutine(DoFadeIn());
+    public void StartHiding() => StartCoroutine(DoFadeIn());
+
+    public void StartShowing() => StartCoroutine(DoFadeOut());
+
+    private void Hide()
+    {
+      gameObject.SetActive(true);
+      Curtain.alpha = 0;
+    }
 
     private IEnumerator DoFadeIn()
     {
       while (Curtain.alpha > 0)
       {
-        Curtain.alpha -= 0.03f;
-        yield return new WaitForSeconds(0.03f);
+        Curtain.alpha -= _fadingSpeed;
+        yield return new WaitForSeconds(_fadingSpeed);
       }
 
       gameObject.SetActive(false);
+    }
+
+    private IEnumerator DoFadeOut()
+    {
+      Hide();
+      while (Curtain.alpha <1)
+      {
+        Curtain.alpha += _fadingSpeed;
+        yield return new WaitForSeconds(_fadingSpeed);
+      }
     }
   }
 }

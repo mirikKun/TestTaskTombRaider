@@ -1,18 +1,17 @@
-﻿using Infrastructure.Logic;
+using Infrastructure.Logic;
 
 namespace Infrastructure.States
 {
-    public class LoadMainSceneState : IState
+    public class RestartLevelState:IState
     {
         private const string MainLevel = InfrastructureAssetPath.MainScene;
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
 
-        public LoadMainSceneState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+        public RestartLevelState(GameStateMachine stateMachine, LoadingCurtain curtain)
         {
             _stateMachine = stateMachine;
-            _sceneLoader = sceneLoader;
             _curtain = curtain;
         }
 

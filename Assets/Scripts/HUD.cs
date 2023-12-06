@@ -3,22 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class HUD : MonoBehaviour
 {
     [SerializeField] private Button _pauseButton;
-    [SerializeField] private Button _shieldButton;
-    [SerializeField] private UIMediator _uiMediator;
+    [SerializeField] private ShieldButton _shieldButton;
+    private Mediator _mediator;
+    private Player _player;
 
+    [Inject]
+    private void Construct(Mediator mediator, Player player)
+    {
+        _mediator = mediator;
+        _player = player;
+    }
 
     private void Start()
     {
         _pauseButton.onClick.AddListener(Pause);
+        _shieldButton.OnButtonUp += _player.DisableShield;
+        _shieldButton.OnButtonDown += _player.EnableShield;
     }
+
+    private void OnDestroy()
+    {
+        _shieldButton.OnButtonUp -= _player.DisableShield;
+        _shieldButton.OnButtonDown -= _player.EnableShield;
+    }
+
 
     private void Pause()
     {
-        _uiMediator.OpenPauseMenu();
-        //Time.timeScale = 0;
+        _mediator.OpenPauseMenu();
+        _mediator.PauseGame();
     }
 }
