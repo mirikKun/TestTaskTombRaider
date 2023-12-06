@@ -1,14 +1,20 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace DefaultNamespace
 {
     public class Game:MonoBehaviour
     {
         [SerializeField] private LevelGenerator _levelGenerator;
-
-        [SerializeField] private Player _player;
         [SerializeField] private Transform _destination;
+        private Player _player;
+
+        [Inject]
+        private void Construct(Player player)
+        {
+            _player = player;
+        }
         private void Start()
         {
             _levelGenerator.GenerateLevel();
