@@ -57,7 +57,6 @@ public class PopupAnimation : MonoBehaviour
 
     public void StartAnimationIn()
     {
-        Debug.Log("aAAAAAAAAAAA");
         if (_state != AnimationState.None)
         {
             return;
@@ -75,8 +74,6 @@ public class PopupAnimation : MonoBehaviour
 
     public void StartAnimationOut()
     {
-        Debug.Log("BBBBBB");
-
         if (_state != AnimationState.None)
         {
             return;
