@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using DefaultNamespace;
 using Infrastructure.States;
 using UnityEngine;
@@ -19,6 +17,7 @@ public class Mediator : MonoBehaviour
      }
     public void OpenPauseMenu() => _popupAnimator.StartAnimationIn();
     public void PauseGame() => _game.PauseGame();
+    public void Restart() => _game.Restart();
 
     public void ClosePauseMenu() => _popupAnimator.StartAnimationOut();
     public void ContinueGame() => _game.ContinueGame();

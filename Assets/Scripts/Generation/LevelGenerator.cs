@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.Generation;
+using Infrastructure;
 using Infrastructure.Fabric;
 using Unity.AI.Navigation;
 using UnityEngine;
@@ -24,24 +25,29 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float _chanceToPlaceDeathZone = 0.2f;
     private NavMeshSurface _navMeshSurface;
     private ILevelFactory _factory;
+    private Delayer _delayer;
 
     [Inject]
-    private void Construct(ILevelFactory factory)
+    private void Construct(ILevelFactory factory,Delayer delayer)
     {
         _factory = factory;
+        _delayer = delayer;
     }
 
     private void Awake()
     {
         _navMeshSurface = GetComponent<NavMeshSurface>();
         _obstacleSize = _sizeOfLevel / (float)_quantityPerRow;
+        _navMeshSurface.BuildNavMesh();
+
     }
+    
 
     public void GenerateLevel()
     {
         _navMeshSurface.RemoveData();
         GenerateMaze();
-        _navMeshSurface.BuildNavMesh();
+        _delayer.WaitFrame(_navMeshSurface.BuildNavMesh);
 
     }
 

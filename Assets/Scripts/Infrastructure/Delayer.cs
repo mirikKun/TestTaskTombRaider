@@ -18,6 +18,9 @@ namespace Infrastructure
         public Coroutine Wait(float time, Action onLoaded = null) =>
             _coroutineRunner.StartCoroutine(WaitSeconds(time, onLoaded));
 
+        public Coroutine WaitFrame(Action onLoaded = null) =>
+            _coroutineRunner.StartCoroutine(WaitCoroutineFrame(onLoaded));
+
         public Coroutine Wait(Coroutine coroutine, Action onLoaded = null) =>
             _coroutineRunner.StartCoroutine(WaitCoroutine(coroutine, onLoaded));
 
@@ -30,6 +33,12 @@ namespace Infrastructure
         private IEnumerator WaitCoroutine(Coroutine coroutine, Action onLoaded = null)
         {
             yield return coroutine;
+            onLoaded?.Invoke();
+        }
+
+        private IEnumerator WaitCoroutineFrame(Action onLoaded = null)
+        {
+            yield return null;
             onLoaded?.Invoke();
         }
     }

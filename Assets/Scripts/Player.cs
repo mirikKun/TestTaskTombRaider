@@ -61,7 +61,6 @@ public class Player : MonoBehaviour
         OnDestinationReach?.Invoke();
         _effects.PlayVictoryEffect();
         StopPlayer();
-
     }
 
     public void StopPlayer()

@@ -31,7 +31,7 @@ namespace DefaultNamespace
         private void Start()
         {
             Restart();
-            _delayer.Wait(_timeToStartGame, SetupPlayerDestination);
+            PlayerStartDelay();
             _player.OnDeath += () => StartRestartingLevel(false);
             _player.OnDestinationReach += () => StartRestartingLevel(true);
         }
@@ -50,14 +50,21 @@ namespace DefaultNamespace
             {
                 GenerateLevel();
             }
+            RestartPlayer();
+            PlayerStartDelay();
 
+        }
+
+        private void RestartPlayer()
+        {
             _player.RestartPlayer(_playerStartPosition);
         }
 
-        private void SetupPlayerDestination()
+        private void SetupPlayer()
         {
-            Debug.Log(122);
             _player.SetupDestination(_destination.position);
+            _player.MovePlayer();
+
         }
 
         public void PauseGame()
@@ -77,17 +84,20 @@ namespace DefaultNamespace
             _levelGenerator.GenerateLevel();
         }
 
+        private void PlayerStartDelay()
+        {
+            _delayer.Wait(_timeToStartGame, SetupPlayer);
+        }
         private IEnumerator LevelRestart(bool regenerateLevel)
         {
             yield return new WaitForSeconds(2);
             _levelRestartAnimator.StartFadeIn();
             yield return new WaitForSeconds(1);
             Restart(regenerateLevel);
+            
+            yield return null;
             _levelRestartAnimator.StartFadeOut();
-            yield return new WaitForSeconds(3);
-
-            SetupPlayerDestination();
-            _player.MovePlayer();
+            yield return new WaitForSeconds(1);
         }
     }
 }
