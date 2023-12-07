@@ -11,12 +11,10 @@ namespace Infrastructure.States
 
     public void Enter()
     {
-      Debug.Log(1111111);
     }
 
     public void Exit()
     {
-      
     }
   }
 }

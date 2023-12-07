@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupAnimation : MonoBehaviour
+public class PopupAnimator : MonoBehaviour
 {
     [SerializeField] private float _timeOfAnimation;
     [SerializeField] private float _maxColorFade;

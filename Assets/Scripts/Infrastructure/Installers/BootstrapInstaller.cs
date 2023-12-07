@@ -25,13 +25,14 @@ namespace Infrastructure.Installers
 
             BindFactory();
             BindStateMachine();
+            BindAssetDelayer();
         }
 
         private void BindFactory()
         {
             Container
-                .Bind<IPlayerFactory>()
-                .To<PlayerFactory>()
+                .Bind<ILevelFactory>()
+                .To<LevelFactory>()
                 .AsSingle();
         }
 
@@ -39,6 +40,12 @@ namespace Infrastructure.Installers
         {
             Container
                 .Bind<IAssetProvider>().To<AssetProvider>()
+                .AsSingle();
+        }
+        private void BindAssetDelayer()
+        {
+            Container
+                .Bind<Delayer>()
                 .AsSingle();
         }
 

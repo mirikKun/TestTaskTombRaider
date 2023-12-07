@@ -15,10 +15,10 @@ namespace Infrastructure
         public Delayer(ICoroutineRunner coroutineRunner) =>
             _coroutineRunner = coroutineRunner;
 
-        public void Wait(float time, Action onLoaded = null) =>
+        public Coroutine Wait(float time, Action onLoaded = null) =>
             _coroutineRunner.StartCoroutine(WaitSeconds(time, onLoaded));
 
-        public void Wait(Coroutine coroutine, Action onLoaded = null) =>
+        public Coroutine Wait(Coroutine coroutine, Action onLoaded = null) =>
             _coroutineRunner.StartCoroutine(WaitCoroutine(coroutine, onLoaded));
 
         private IEnumerator WaitSeconds(float time, Action onLoaded = null)

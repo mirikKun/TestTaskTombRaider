@@ -10,7 +10,8 @@ namespace Infrastructure.Installers
     {
         [SerializeField] private Game _game;
         [SerializeField] private LevelGenerator _levelGenerator;
-        [SerializeField] private PopupAnimation _popupAnimation;
+        [SerializeField] private PopupAnimator _popupAnimator;
+        [SerializeField] private LevelRestartAnimator _levelRestartAnimator;
         [SerializeField] private Mediator _mediator;
 
         [SerializeField] private Transform _spawnPoint;
@@ -24,7 +25,8 @@ namespace Infrastructure.Installers
 
         public override void InstallBindings()
         {                      
-            BindPopupAnimation();
+            BindLevelRestartAnimator();
+            BindPopupAnimator();
 
             BindPlayer();
             
@@ -57,11 +59,18 @@ namespace Infrastructure.Installers
                 .FromInstance(_mediator)
                 .AsSingle();
         }
-        private void BindPopupAnimation()
+        private void BindLevelRestartAnimator()
         {
             Container
-                .Bind<PopupAnimation>()
-                .FromInstance(_popupAnimation)
+                .Bind<LevelRestartAnimator>()
+                .FromInstance(_levelRestartAnimator)
+                .AsSingle();
+        }
+        private void BindPopupAnimator()
+        {
+            Container
+                .Bind<PopupAnimator>()
+                .FromInstance(_popupAnimator)
                 .AsSingle();
         }
 

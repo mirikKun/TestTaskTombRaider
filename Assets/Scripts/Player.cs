@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     private const int PlayerLayerMask = 7;
     private const int ShieldLayerMask = 9;
+    public bool Dead { get; private set; }
 
     private void Awake()
     {
@@ -52,12 +53,15 @@ public class Player : MonoBehaviour
         _view.HidePlayer();
         StopPlayer();
         _effects.PlayDeathEffect();
+        Dead = true;
     }
 
     public void InvokeVictory()
     {
         OnDestinationReach?.Invoke();
         _effects.PlayVictoryEffect();
+        StopPlayer();
+
     }
 
     public void StopPlayer()
@@ -72,9 +76,12 @@ public class Player : MonoBehaviour
 
     public void RestartPlayer(Vector3 position)
     {
+        _agent.enabled = false;
         transform.position = position;
+        transform.rotation=Quaternion.identity;
         _view.ShowPlayer();
-        MovePlayer();
+        Dead = false;
+        _agent.enabled = true;
     }
 
     public void EnableShield()

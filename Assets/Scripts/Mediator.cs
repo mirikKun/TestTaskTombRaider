@@ -7,20 +7,20 @@ using Zenject;
 
 public class Mediator : MonoBehaviour
 {
-     private PopupAnimation _popupAnimation;
+     private PopupAnimator _popupAnimator;
      private GameStateMachine _stateMachine;
      private Game _game;
      [Inject]
-     private void Construct(PopupAnimation popupAnimation,GameStateMachine stateMachine,Game game)
+     private void Construct(PopupAnimator popupAnimator,GameStateMachine stateMachine,Game game)
      {
-         _popupAnimation = popupAnimation;
+         _popupAnimator = popupAnimator;
          _stateMachine = stateMachine;
          _game = game;
      }
-    public void OpenPauseMenu() => _popupAnimation.StartAnimationIn();
+    public void OpenPauseMenu() => _popupAnimator.StartAnimationIn();
     public void PauseGame() => _game.PauseGame();
 
-    public void ClosePauseMenu() => _popupAnimation.StartAnimationOut();
+    public void ClosePauseMenu() => _popupAnimator.StartAnimationOut();
     public void ContinueGame() => _game.ContinueGame();
 
 }
